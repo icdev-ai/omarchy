@@ -10,9 +10,12 @@ if (( EUID == 0 )); then
 fi
 
 # ICDEV is a Python CLI on PyPI. mise's pipx: backend installs it through uv,
-# so uv comes first on a machine that has never needed it.
+# so uv comes first on a machine that has never needed it. That adds uv to the
+# user's global mise config, so the output says so rather than leaving a new
+# global tool to be found later.
 if ! omarchy-cmd-present uv; then
-  echo "Installing uv..."
+  echo "Installing uv, which mise needs to install Python tools like ICDEV."
+  echo "It is added to your global mise config (~/.config/mise/config.toml)."
   mise use -g --quiet uv@latest
 fi
 

@@ -45,7 +45,8 @@ if PATH="$mock_bin:$ROOT/bin:/usr/bin:/bin" command -v uv >/dev/null 2>&1; then
   skip "uv is installed first when it is missing (a system uv is on this host)"
 else
   grep -qx 'mise use -g --quiet uv@latest' "$calls" || fail "uv is installed for the pipx backend" "$(cat "$calls")"
-  pass "uv is installed first when it is missing"
+  grep -q 'global mise config' "$test_tmp/output" || fail "installing uv says it changes the global mise config" "$(cat "$test_tmp/output")"
+  pass "uv is installed first when it is missing, and the output says it goes into the global mise config"
 fi
 
 printf '#!/bin/bash\nexit 0\n' >"$mock_bin/uv"
